@@ -55,8 +55,6 @@ code {
     padding: 1px 4px;
 }
 
-
-
 pre code {
     border: 1px solid #dddddd;
 }
@@ -66,7 +64,6 @@ pre code {
     padding: 5px;
     border: 1px solid #dddddd;
 }
-
 
 ul, p{
     line-height: 1.6em;
