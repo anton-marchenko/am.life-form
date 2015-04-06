@@ -1,0 +1,73 @@
+﻿/*
+ * styles
+ *
+ * 2015 Fattan Labs
+ * http://www.fattan.ru/
+ *
+ * Author: marchenko_am
+ * Free to use
+ *
+ */
+
+body {
+    font-family: helvetica, sans-serif;
+    font-size: 14px;
+    color: #4c4c4c;
+}
+
+.wrapper {
+    margin: 20px;
+    max-width: 1024px;
+}
+
+.tbl_content {
+    max-width: 90%;
+    border: 1px solid #dddddd;
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    vertical-align: middle;
+}
+
+.tbl_content td {
+    border: 1px solid #dddddd;
+    line-height: 1.5;
+    padding: 8px;
+    vertical-align: top;
+}
+
+.tbl_content thead td {
+    background: #E6F1F6;
+    border-color: #D8E6EC;
+}
+
+.tbl_content tbody tr:nth-child(2n+1) td {
+    background-color: #f9f9f9;
+}
+
+.description {
+    margin: 0 10px;
+}
+
+code {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 1px 4px;
+}
+
+
+
+pre code {
+    border: 1px solid #dddddd;
+}
+
+.box {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #dddddd;
+}
+
+
+ul, p{
+    line-height: 1.6em;
+}

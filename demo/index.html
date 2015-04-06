@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>lifeForm - jQuery plugin</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/normalize.css" >
+    <link rel="stylesheet" type="text/css" href="styles/googlecode.css" >
+    <link rel="stylesheet" type="text/css" href="styles/style.css" >
+    <link rel="stylesheet" type="text/css" href="styles/lifeForm.css" >
+
+    <script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../js/highlight.pack.js"></script>
+
+    <script type="text/javascript" src="../releases/jquery.lifeForm-1.0.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+    <div class="wrapper">
+
+        <h3>Подключение плагина</h3>
+
+<pre>
+<code class="html js css">
+    &lt;head&gt;
+        &lt;style&gt;
+            .lifeFormHide {
+                display: none;
+            }
+        &lt;/style&gt;
+
+        &lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;jquery.lifeForm.js&quot;&gt;&lt;/script&gt;
+
+        &lt;script&gt;
+            $(document).ready(function () {
+
+                var lifeFormCfg = {
+                    "show":  [
+                        {"if": "#show_content", "than": "#content"}
+                    ]
+                };
+
+                $('#form_1').lifeForm(lifeFormCfg);
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;form  id="form_1"  name="form_1" method="POST" &gt;
+
+            &lt;input type='checkbox' name='show_content' id='show_content' value='1' /&gt; Показать содержимое
+            &lt;div id='content' &gt;Содержимое&lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/body&gt;
+</code>
+</pre>
+	
+        <div class="description">
+            <h3>Предназначение плагина</h3>
+            <p>
+				<strong>LifeForm</strong> это jQuery плагин, призванный облегчить работу с формами (скрытие/отображение блоков).
+			</p>
+			<h4>Пример №1</h4>
+            <p>
+                Например, требуется написать скрипт по отображению блоков с товарами в форме. При клике на <code>игры</code> - отображается блок с играми, при клике на <code>книги</code> - отображается блок с книгами, а игры скрываются.
+			</p>
+			<h4>Верстка примера:</h4>
+
+<pre>
+<code class="html">
+    &lt;form  id="form_1"  name="form_1" method="POST" &gt;
+
+        &lt;input type='radio' name='catalog' id='books' value='books' /&gt; Книги
+        &lt;input type='radio' name='catalog' id='games' value='games' /&gt; Игры
+			
+        &lt;div id='books_box' &gt;Книги&lt;/div&gt;
+        &lt;div id='games_box' &gt;Игры&lt;/div&gt;
+    &lt;/form&gt;
+
+</code>
+</pre>
+
+<h4>Листинг примера:</h4>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#ex1_form').lifeForm({
+                "show": [
+                    {
+                        "if":   "#ex1_books",
+                        "than": "#ex1_books_box",
+                        "else": "#ex1_games_box"
+                    }
+                ]
+            });
+        });
+    </script>
+        <form  name="ex1_form" method="POST"  id="ex1_form" >
+		    <table class="tbl_content">
+                <thead>
+					<tr>
+						<td>
+							При нажатии на <code>radio</code> игры покажется блок игр
+						</td>
+					</tr>
+                </thead>
+                <tbody>
+					<tr>
+						<td>
+							<label><input type='radio' name='ex1_catalog' id='ex1_books' value='books' checked /> Книги</label><br>
+							<label><input type='radio' name='ex1_catalog' id='ex1_games' value='games' /> Игры</label>
+							
+							<div id='ex1_books_box' class="box" >Книги</div>
+							<div id='ex1_games_box' class="box" >Игры</div>
+						</td>
+					</tr>
+                </tbody>
+            </table>
+
+        </form>
+
+            <h4>Реализация примера:</h4>
+
+            <table class="tbl_content">
+                <thead>
+                <tr>
+                    <td >      Реализация на jQuery     </td>
+                    <td >      Реализация c использованием  <strong>LifeForm</strong>    </td>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>
+<pre>
+<code class="js">
+    $("#form_1 input[name='catalog']").on('change', function(){
+        if ($('#books').is(':checked')) {
+            $("#books_box").show();
+            $("#games_box").hide();	
+        } else {
+            $("#books_box").hide();
+            $("#games_box").show();	
+        }
+    });
+</code>
+</pre>
+                    </td>
+                    <td>
+<pre>
+<code class="js">
+    $('#form_1').lifeForm({
+        "show": [
+            {
+                "if":   "#books",
+                "than": "#books_box",
+                "else": "#games_box"
+            }
+        ]
+    });
+</code>
+</pre>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+<p>
+    Как видно, количество строк кода совпадает в обеих реализациях. Однако в случае с <strong>LifeForm</strong> код выглядит
+    гораздо нагляднее. А когда ваш скрипт насчитывает несколько сотен строк с однотипными ветвлениями, преимущества <strong>LifeForm</strong>
+    становятся очевидными.
+</p>
+        </div>
+        <div class="description">
+            <h3>Принцип работы плагина</h3>
+           <p> В плагин передаются правила в формате JSON, например:</p>
+<pre>
+<code class="js">
+    // если кликнут #books, то показать #books_box
+    var lifeFormCfg = {
+        "show": [
+            {
+                "if":   "#books",
+                "than": "#books_box"
+            }
+        ]
+    };
+</code>
+</pre>
+            <p>
+            Существует 3 метода:
+            </p>
+            <ul>
+                <li><code>show</code> - при выполнении события, подчиненные блоки становятся видимыми</li>
+                <li><code>hide</code> - при выполнении события, подчиненные блоки становятся скрытыми</li>
+                <li><code>focus</code> - при выполнении события, подчиненный <code>input/textarea</code> становится в фокусе (в него ставится курсор).</li>
+            </ul>
+            <p>Для методов есть обязательные поля: </p>
+            <ul>
+                <li><code>if</code> - селектор, при нажатии которого выполняется событие</li>
+                <li><code>than</code> - селектор, над которым совершается событие</li>
+            </ul>
+            <p>
+            Для методов <code>show</code> и <code>hide</code> есть необязательное поле <code>else</code>. Это подчиненный селектор над которым выполняется событие если условие ложно.<br>
+            Под условием подразумевается клик по селектору, указанному в поле <code>if</code>.
+            </p>
+            <p>
+                В методах <code>show</code> и <code>hide</code> допустима связь многие-ко-многим.
+                То есть возможен выбор нескольких селекторов (jQuery-синтаксис).
+
+                Например <code>"if": "#books1, #books2"</code>. Несколько селекторов обрабатываются
+                по условию <code>ИЛИ</code>. То есть: если кликнут радиобатон  <code>#books1</code> <code>ИЛИ</code> кликнут <code>#books2</code> <code>ТО</code> выполняется условие <code>than</code>.
+                При этом в <code>than</code> можно также
+                указать несколько блоков - над всеми ими будет выполнено действие (скрытие/показ)
+            </p>
+            <p>
+                <strong>Внимание!</strong> Для метода <code>focus</code> допустима связь один-к-одному. Связь  многие-ко-многим не поддерживается, при попытке её использовать вылетит ошибка.
+            </p>
+            <p>
+                <strong>Примечание.</strong> Когда блок становится скрытым, к нему просто добавляется класс <code>.lifeFormHide</code>.
+                Значит, в css-стилях нужно прописать <code>.lifeFormHide { display: none; }</code>. См. подключения плагина.
+            </p>
+
+
+        </div>
+
+            <h3>Пример №2. Совместная работа методов</h3>
+
+        <h4>           Листинг примера        </h4>
+<pre>
+<code class="html js">
+        &lt;script type="text/javascript"&gt;
+            $(document).ready(function () {
+
+                $('#ex2_form').lifeForm({
+                    "show": [
+                        {
+                            "if":   "#ex2_books",
+                            "than": "#ex2_books_box",
+                            "else": "#ex2_games_box"
+                        }
+                    ],
+                    "focus": [
+                        {"if": "#ex2_books", "than": "#ex2_books_qty"},
+                        {"if": "#ex2_games", "than": "#ex2_games_qty"},
+                        {"if": "#ex2_other", "than": "#ex2_other_txt"}
+                    ]
+                });
+            });
+        &lt;/script&gt;
+        &lt;form  name="ex2_form" method="POST"  id="ex2_form" &gt;
+            &lt;table class="tbl_content"&gt;
+                &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;td&gt; Совместная работа методов &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                        &lt;label&gt;&lt;input type='radio' name='ex2_catalog' id='ex2_books' value='books' checked /&gt; Книги&lt;/label&gt;
+                        &lt;span id='ex2_books_box' &gt; в количестве &lt;input id="ex2_books_qty" size="2" type="text" /&gt; штук&lt;/span&gt;
+                        &lt;br&gt;
+
+                        &lt;label&gt;&lt;input type='radio' name='ex2_catalog' id='ex2_games' value='games' /&gt; Игры&lt;/label&gt;
+                        &lt;span id='ex2_games_box' &gt; в количестве &lt;input id="ex2_games_qty" size="2" type="text" /&gt; штук&lt;/span&gt;
+                        &lt;br&gt;
+
+                        &lt;label&gt;&lt;input type='radio' name='ex2_catalog' id='ex2_other' value='other' /&gt; Иное&lt;/label&gt;&lt;br&gt;
+                        &lt;textarea id="ex2_other_txt"&gt;&lt;/textarea&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+
+        &lt;/form&gt;	
+	
+</code>
+</pre>
+
+
+        <h4>           Реализация примера        </h4>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $('#ex2_form').lifeForm({
+                    "show": [
+                        {
+                            "if":   "#ex2_books",
+                            "than": "#ex2_books_box",
+                            "else": "#ex2_games_box"
+                        }
+                    ],
+                    "focus": [
+                        {"if": "#ex2_books", "than": "#ex2_books_qty"},
+                        {"if": "#ex2_games", "than": "#ex2_games_qty"},
+                        {"if": "#ex2_other", "than": "#ex2_other_txt"}
+                    ]
+                });
+            });
+        </script>
+        <form  name="ex2_form" method="POST"  id="ex2_form" >
+            <table class="tbl_content">
+                <thead>
+                <tr>
+                    <td> Совместная работа методов </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <label><input type='radio' name='ex2_catalog' id='ex2_books' value='books' checked /> Книги</label><span id='ex2_books_box' > в количестве <input id="ex2_books_qty" size="2" type="text" /> штук</span> <br>
+                        <label><input type='radio' name='ex2_catalog' id='ex2_games' value='games' /> Игры</label><span id='ex2_games_box' > в количестве <input id="ex2_games_qty" size="2" type="text" /> штук</span><br>
+                        <label><input type='radio' name='ex2_catalog' id='ex2_other' value='other' /> Иное</label><br>
+                        <textarea id="ex2_other_txt"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </form>
+        <p>
+            В этом примере:
+        </p>
+            <ul>
+                <li>При клике на <code>#ex2_games</code> открывается <code>#ex2_games_box</code> и фокус становится в <code>#ex2_books_qty</code></li>
+                <li>То же самое для блока книг</li>
+                <li>При клике <code>#ex2_other</code> указатель фокусируется в текстареа <code>#ex2_other_txt</code></li>
+                <li>При клике в текстарею <code>#ex2_other_txt</code> выбирается связанный с ней радиобатон <code>#ex2_other</code> (это связывание и есть основная фишка метода lifeForm.focus)</li>
+            </ul>
+
+<h3>Протестировано</h3>
+        <h4>Бразузеры</h4>
+        <ul>
+            <li>Firefox 35.0.1</li>
+            <li>Google Chrome 41.0</li>
+        </ul>
+
+        <h4>С версиями jQuery</h4>
+
+        <ul>
+            <li>1.7.2</li>
+            <li>1.8.3</li>
+            <li>1.9.1</li>
+            <li>1.10.2</li>
+            <li>2.0.3</li>
+        </ul>
+
+    </div>
+
+
+
+</body>
+</html>
