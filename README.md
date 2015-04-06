@@ -81,6 +81,7 @@ jquery.lifeForm
         </script>
 ```
 
+Можно посмотреть [работу примера на jsfiddle][1] и [поиграться с примером на jsfiddle][2]
 
 Документация
 ------------
@@ -103,3 +104,5 @@ jquery.lifeForm
 
 Примечание. Когда блок становится скрытым, к нему просто добавляется класс .lifeFormHide. Значит, в css-стилях нужно прописать .lifeFormHide { display: none; }. См. установку плагина. 
 
+[1]: https://jsfiddle.net/fattan/8vb9pLkd/6/embedded/result/
+[2]: https://jsfiddle.net/fattan/8vb9pLkd/6/
